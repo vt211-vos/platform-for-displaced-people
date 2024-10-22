@@ -1,7 +1,6 @@
 {
-  "name": "express-typescript-example",
+  "name": "server",
   "version": "1.0.0",
-  "description": "Rest API using Node.js, TypeScript, Express",
   "main": "server.ts",
   "scripts": {
     "build": "tsc",
@@ -9,18 +8,6 @@
     "dev": "nodemon server.ts",
     "start": "tsc && npm run run:node"
   },
-  "keywords": [
-    "express",
-    "typescript",
-    "rest",
-    "api",
-    "restapi",
-    "node",
-    "nodejs",
-    "crud"
-  ],
-  "author": "bezkoder",
-  "license": "ISC",
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
