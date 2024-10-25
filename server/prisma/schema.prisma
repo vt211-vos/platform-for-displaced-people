@@ -35,6 +35,7 @@ model House {
   id           Int        @id @default(autoincrement())
   adress       String
   numPlaces    Int
+  details      String?
   cityId       Int
   coordinateId Int
   reviews      Review[]
@@ -53,20 +54,26 @@ model Review {
 }
 
 model DisplacedGroup {
-  id     Int  @id @default(autoincrement())
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
+  id           Int           @id @default(autoincrement())
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  privileges   Privilege[]
+  groupMembers GroupMember[]
 }
 
 model GroupMember {
-  id         Int    @id @default(autoincrement())
-  name       String
-  surname    String
-  middleName String
-  age        Int
+  id               Int            @id @default(autoincrement())
+  name             String
+  surname          String
+  middleName       String
+  age              Int
+  status           String
+  displacedGroupId Int
+  displacedGroup   DisplacedGroup @relation(fields: [displacedGroupId], references: [id])
 }
 
-model Priviliges {
-  id   Int    @id @default(autoincrement())
-  name String
+model Privilege {
+  id              Int              @id @default(autoincrement())
+  name            String
+  displacedGroups DisplacedGroup[]
 }
