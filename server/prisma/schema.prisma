@@ -39,8 +39,8 @@ model House {
   cityId       Int
   coordinateId Int
   reviews      Review[]
-  city         City       @relation(fields: [cityId], references: [id])
-  coordinate   Coordinate @relation(fields: [coordinateId], references: [id])
+  city         City       @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  coordinate   Coordinate @relation(fields: [coordinateId], references: [id], onDelete: Cascade)
 }
 
 model Review {
@@ -49,14 +49,15 @@ model Review {
   text    String?
   rate    Int?
   houseId Int
-  house   House   @relation(fields: [houseId], references: [id])
-  user    User    @relation(fields: [userId], references: [id])
+  house   House   @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model DisplacedGroup {
   id           Int           @id @default(autoincrement())
+  status       String
   userId       Int
-  user         User          @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   privileges   Privilege[]
   groupMembers GroupMember[]
 }
@@ -67,9 +68,8 @@ model GroupMember {
   surname          String
   middleName       String
   age              Int
-  status           String
   displacedGroupId Int
-  displacedGroup   DisplacedGroup @relation(fields: [displacedGroupId], references: [id])
+  displacedGroup   DisplacedGroup @relation(fields: [displacedGroupId], references: [id], onDelete: Cascade)
 }
 
 model Privilege {
