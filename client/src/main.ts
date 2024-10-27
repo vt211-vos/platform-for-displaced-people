@@ -3,6 +3,7 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config';
+import ToastService from 'primevue/toastservice';
 import Lara from '@primevue/themes/lara';
 import "./assets/main.css"
 
@@ -16,6 +17,7 @@ app.use(PrimeVue, {
     preset: Lara
   }
 });
+app.use(ToastService);
 app.use(createPinia())
 app.use(router)
 
