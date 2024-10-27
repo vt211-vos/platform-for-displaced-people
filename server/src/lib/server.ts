@@ -1,6 +1,8 @@
 import express, {Application} from "express";
 import cors, {CorsOptions} from "cors";
 import Routes from "../routes";
+import {ApiAuth} from "./auth";
+
 
 export default class Server {
   private readonly app: Application;
@@ -19,6 +21,8 @@ export default class Server {
     this.app.use(cors(corsOptions));
     this.app.use(express.json());
     this.app.use(express.urlencoded({extended: true}));
+    
+    new ApiAuth(this.app)
   }
 
   public listen(port: number) {
