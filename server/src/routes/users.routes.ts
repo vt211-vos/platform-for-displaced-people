@@ -1,6 +1,8 @@
 import {Router} from "express";
 import UsersController from "../controllers/users.controller";
 import {BaseRoutes, RouteConfig} from "./BaseRoutes";
+import {authMiddleware} from "../middlewares/auth";
+import {UserRole} from "../enums/users";
 
 export class UsersRoutes extends BaseRoutes {
   public router = Router();
@@ -18,7 +20,10 @@ export class UsersRoutes extends BaseRoutes {
       {
         path: "/",
         method: "get",
-        handler: this.controller.findAll
+        handler: this.controller.findAll,
+        middlewares: [
+          // authMiddleware([UserRole.ADMIN])
+        ]
       },
       {
         path: "/:id",

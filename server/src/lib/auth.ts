@@ -5,11 +5,13 @@ import jwt from "jsonwebtoken";
 import {Application} from "express";
 import {JWT_SECRET} from "./env";
 import session from "express-session";
+import {UserRole} from "../enums/users";
 
 declare module "passport" {
   namespace Express {
     interface User {
       id: string
+      role: UserRole
     }
   }
 }
@@ -30,9 +32,9 @@ const authStrategy = new Strategy(opts, async ({id}, done) => {
   }
 })
 
-function signToken(id: string) {
+function signToken(id: string, role: string) {
   return jwt.sign(
-    {id},
+    {id, role},
     JWT_SECRET,
     {expiresIn: "1d"}
   )
@@ -63,10 +65,10 @@ export class ApiAuth {
     passport.deserializeUser(async (id: string, done) => {
       try {
         const user = await db.user.findUniqueOrThrow({
-          select: {id: true},
+          select: {id: true, role: true},
           where: {id}
         });
-        done(null, {id: user.id});
+        done(null, {id: user.id, role: user.role as UserRole});
       } catch (e) {
         done(e)
       }
@@ -101,6 +103,7 @@ export class ApiAuth {
       try {
         const {email, password} = req.body;
         const user = await db.user.findUnique({
+          select: {id: true, password: true, role: true},
           where: {email}
         });
 
@@ -118,7 +121,7 @@ export class ApiAuth {
 
         return res
           .status(200)
-          .json({accessToken: signToken(user.id)});
+          .json({accessToken: signToken(user.id, user.role)});
       } catch (error) {
         console.log(error);
         next(error);
