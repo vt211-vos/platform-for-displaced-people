@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id              Int              @id @default(autoincrement())
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String?
   email           String           @unique
   password        String
@@ -19,61 +19,61 @@ model User {
 }
 
 model City {
-  id     Int     @id @default(autoincrement())
+  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name   String
   houses House[]
 }
 
 model Coordinate {
-  id        Int     @id @default(autoincrement())
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   latitude  Float
   longitude Float
   houses    House[]
 }
 
 model House {
-  id           Int        @id @default(autoincrement())
+  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   adress       String
   numPlaces    Int
   details      String?
-  cityId       Int
-  coordinateId Int
+  cityId       String     @db.Uuid
+  coordinateId String     @db.Uuid
   reviews      Review[]
   city         City       @relation(fields: [cityId], references: [id], onDelete: Cascade)
   coordinate   Coordinate @relation(fields: [coordinateId], references: [id], onDelete: Cascade)
 }
 
 model Review {
-  id      Int     @id @default(autoincrement())
-  userId  Int
+  id      String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId  String  @db.Uuid
   text    String?
   rate    Int?
-  houseId Int
+  houseId String  @db.Uuid
   house   House   @relation(fields: [houseId], references: [id], onDelete: Cascade)
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model DisplacedGroup {
-  id           Int           @id @default(autoincrement())
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   status       String
-  userId       Int
+  userId       String        @db.Uuid
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   privileges   Privilege[]
   groupMembers GroupMember[]
 }
 
 model GroupMember {
-  id               Int            @id @default(autoincrement())
+  id               String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name             String
   surname          String
   middleName       String
   age              Int
-  displacedGroupId Int
+  displacedGroupId String         @db.Uuid
   displacedGroup   DisplacedGroup @relation(fields: [displacedGroupId], references: [id], onDelete: Cascade)
 }
 
 model Privilege {
-  id              Int              @id @default(autoincrement())
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
   displacedGroups DisplacedGroup[]
 }

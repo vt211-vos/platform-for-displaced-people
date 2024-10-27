@@ -12,26 +12,27 @@ import {
 import {fakerUK as f} from "@faker-js/faker"
 import {UserRole} from "../src/enums/users";
 import {GroupStatus} from "../src/enums/group";
+import {randomUUID} from "crypto"
 
 const prisma = new PrismaClient();
 
-type Seed<T extends { id: number }> = (Partial<T> & { id: number })[]
+type Seed<T extends { id: string }> = (Partial<T> & { id: string })[]
 
 const cities = [
   {
-    id: 1,
+    id: randomUUID(),
     name: "Житомир"
   },
   {
-    id: 2,
+    id: randomUUID(),
     name: "Київ",
   },
   {
-    id: 3,
+    id: randomUUID(),
     name: "Львів"
   },
   {
-    id: 4,
+    id: randomUUID(),
     name: "Полтава"
   }
 ] satisfies Seed<City>
@@ -39,29 +40,29 @@ const cities = [
 const coordinates = [
   // Zhytomyr
   {
-    id: 1,
+    id: randomUUID(),
     longitude: 50.318517112094035,
     latitude: 29.059537181340147
   },
   {
-    id: 2,
+    id: randomUUID(),
     longitude: 50.715436494083875,
     latitude: 28.02694697137687
   },
   // Kyiv
   {
-    id: 3,
+    id: randomUUID(),
     longitude: 50.47421503784355,
     latitude: 30.478869705572034
   },
   {
-    id: 4,
+    id: randomUUID(),
     longitude: 50.46898078076231,
     latitude: 30.62578731255179
   },
   // Lviv
   {
-    id: 5,
+    id: randomUUID(),
     longitude: 49.83237110189718,
     latitude: 24.03053440394559
   }
@@ -70,7 +71,7 @@ const coordinates = [
 
 const users = [
   {
-    id: 1,
+    id: randomUUID(),
     name: f.person.fullName(),
     email: f.internet.email(),
     password: "password123",
@@ -78,7 +79,7 @@ const users = [
     phone: f.phone.number(),
   },
   {
-    id: 2,
+    id: randomUUID(),
     name: f.person.fullName(),
     email: f.internet.email(),
     password: "password123",
@@ -86,7 +87,7 @@ const users = [
     phone: f.phone.number(),
   },
   {
-    id: 3,
+    id: randomUUID(),
     name: f.person.fullName(),
     email: f.internet.email(),
     password: "password123",
@@ -94,7 +95,7 @@ const users = [
     phone: f.phone.number(),
   },
   {
-    id: 4,
+    id: randomUUID(),
     name: f.person.fullName(),
     email: f.internet.email(),
     password: "password123",
@@ -105,7 +106,7 @@ const users = [
 
 const houses = [
   {
-    id: 1,
+    id: randomUUID(),
     adress: f.location.streetAddress(),
     numPlaces: f.number.int({min: 1, max: 5}),
     details: f.lorem.paragraph(),
@@ -113,7 +114,7 @@ const houses = [
     coordinateId: coordinates[0].id,
   },
   {
-    id: 2,
+    id: randomUUID(),
     adress: f.location.streetAddress(),
     numPlaces: f.number.int({min: 1, max: 5}),
     details: f.lorem.paragraph(),
@@ -121,7 +122,7 @@ const houses = [
     coordinateId: coordinates[1].id,
   },
   {
-    id: 3,
+    id: randomUUID(),
     adress: f.location.streetAddress(),
     numPlaces: f.number.int({min: 1, max: 5}),
     details: f.lorem.paragraph(),
@@ -129,7 +130,7 @@ const houses = [
     coordinateId: coordinates[2].id,
   },
   {
-    id: 4,
+    id: randomUUID(),
     adress: f.location.streetAddress(),
     numPlaces: f.number.int({min: 1, max: 5}),
     details: f.lorem.paragraph(),
@@ -140,28 +141,28 @@ const houses = [
 
 const reviews = [
   {
-    id: 1,
+    id: randomUUID(),
     userId: users[2].id,
     rate: f.number.int({min: 1, max: 5}),
     text: f.lorem.text(),
     houseId: houses[0].id,
   },
   {
-    id: 2,
+    id: randomUUID(),
     userId: users[2].id,
     rate: f.number.int({min: 1, max: 5}),
     text: f.lorem.text(),
     houseId: houses[1].id,
   },
   {
-    id: 3,
+    id: randomUUID(),
     userId: users[1].id,
     rate: f.number.int({min: 1, max: 5}),
     text: f.lorem.text(),
     houseId: houses[1].id,
   },
   {
-    id: 4,
+    id: randomUUID(),
     userId: users[1].id,
     rate: f.number.int({min: 1, max: 5}),
     text: f.lorem.text(),
@@ -171,27 +172,27 @@ const reviews = [
 
 const privileges = [
   {
-    id: 1,
+    id: randomUUID(),
     name: "Родина з дітьми",
   },
   {
-    id: 2,
+    id: randomUUID(),
     name: "Є люди похилого віку"
   },
   {
-    id: 3,
+    id: randomUUID(),
     name: "Є поранені"
   }
 ] satisfies Seed<Privilege>
 
 const displacedGroups = [
   {
-    id: 1,
+    id: randomUUID(),
     status: GroupStatus.AVAILABLE,
     userId: users[2].id,
   },
   {
-    id: 2,
+    id: randomUUID(),
     status: GroupStatus.NOT_AVAILABLE,
     userId: users[3].id,
   }
@@ -199,7 +200,7 @@ const displacedGroups = [
 
 const groupMembers = [
   {
-    id: 1,
+    id: randomUUID(),
     name: f.person.firstName(),
     surname: f.person.lastName(),
     middleName: f.person.middleName(),
@@ -207,7 +208,7 @@ const groupMembers = [
     displacedGroupId: displacedGroups[0].id
   },
   {
-    id: 2,
+    id: randomUUID(),
     name: f.person.firstName(),
     surname: f.person.lastName(),
     middleName: f.person.middleName(),
@@ -215,7 +216,7 @@ const groupMembers = [
     displacedGroupId: displacedGroups[0].id
   },
   {
-    id: 3,
+    id: randomUUID(),
     name: f.person.firstName(),
     surname: f.person.lastName(),
     middleName: f.person.middleName(),
@@ -223,7 +224,7 @@ const groupMembers = [
     displacedGroupId: displacedGroups[0].id
   },
   {
-    id: 4,
+    id: randomUUID(),
     name: f.person.firstName(),
     surname: f.person.lastName(),
     middleName: f.person.middleName(),
@@ -231,7 +232,7 @@ const groupMembers = [
     displacedGroupId: displacedGroups[1].id
   },
   {
-    id: 5,
+    id: randomUUID(),
     name: f.person.firstName(),
     surname: f.person.lastName(),
     middleName: f.person.middleName(),
