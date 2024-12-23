@@ -15,12 +15,18 @@
   "dependencies": {
     "@primevue/themes": "^4.1.1",
     "@vee-validate/yup": "^4.14.6",
+    "@vueuse/core": "^12.1.0",
     "axios": "^1.7.7",
+    "dotenv": "^16.4.7",
+    "jsonwebtoken": "^9.0.2",
     "pinia": "^2.2.4",
+    "primeicons": "^7.0.0",
     "primevue": "^4.1.1",
     "vee-validate": "^4.14.6",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5",
+    "vue3-google-map": "^0.21.0",
+    "vue3-google-signin": "^2.0.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {
