@@ -10,13 +10,19 @@ type Coordinate = {
 type City = {
   name: string
 }
+
+type UserPhone = {
+  phone: string
+}
 type House = {
   id           :string
   adress       :string
   numPlaces    :number
   details      :string
+  userId       :string
   coordinate: Coordinate
   city: City
+  user: UserPhone
 }
 
 

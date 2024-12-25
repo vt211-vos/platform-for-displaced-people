@@ -32,6 +32,8 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
     )
 
     localStorage.setItem('token', data.accessToken)
+    user.value = data.user
+
     await router.push('/')
   } catch (error) {
     if (error instanceof AxiosError) {

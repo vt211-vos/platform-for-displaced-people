@@ -17,7 +17,8 @@ const props = defineProps({
   },
   city: {
     type: String
-  }
+  },
+  phone: String
 })
 
 const router = useRouter()

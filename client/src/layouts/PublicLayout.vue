@@ -25,8 +25,11 @@ function handleLogout() {
         </RouterLink>
       </div>
       <div class="flex gap-4">
-        <RouterLink to="/admin" v-if="user">
+        <RouterLink to="/admin" v-if="user && user.role === 'VOLUNTEER'">
           Адмін панель
+        </RouterLink>
+        <RouterLink to="/user" v-if="user && user.role === 'USER'">
+          Користувач
         </RouterLink>
         <button @click="handleLogout" v-if="user">
           Вийти

@@ -18,9 +18,18 @@ export const useUserStore = defineStore('user', () => {
 
     const {data} = await api.patch<User | undefined>('/users')
     if (!data) return
-
+    
     user.value = data
   }
 
   return {init};
 });
+
+export const useGetUser = async () => {
+
+
+    const {data} = await api.patch<User | undefined>('/users')
+    if (!data) return
+
+    return data
+};
