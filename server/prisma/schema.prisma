@@ -16,11 +16,12 @@ model User {
   phone           String?
   reviews         Review[]
   displacedGroups DisplacedGroup[]
+  houses          House[]
 }
 
 model City {
   id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name   String
+  name   String  @unique
   houses House[]
 }
 
@@ -38,7 +39,9 @@ model House {
   details      String?
   cityId       String     @db.Uuid
   coordinateId String     @db.Uuid
+  userId       String     @db.Uuid
   reviews      Review[]
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   city         City       @relation(fields: [cityId], references: [id], onDelete: Cascade)
   coordinate   Coordinate @relation(fields: [coordinateId], references: [id], onDelete: Cascade)
 }

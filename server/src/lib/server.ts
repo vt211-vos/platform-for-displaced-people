@@ -34,7 +34,6 @@ export default class Server {
         if (err.code === "EADDRINUSE") {
           console.log("Error: address already in use");
         } else {
-          console.log(err);
         }
       });
   }

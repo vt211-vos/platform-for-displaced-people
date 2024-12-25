@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {db} from "../lib/db";
+import {RequestAuth} from "../middlewares/auth";
 
 export default class UsersController {
   async create(req: Request, res: Response) {
@@ -14,11 +15,21 @@ export default class UsersController {
     res.status(200).json(users);
   }
 
-  async findOne(req: Request, res: Response) {
-    res.status(200).json({
-      message: "findOne OK",
-      reqParamId: req.params.id
-    });
+  async findOne(req: RequestAuth, res: Response) {
+
+    let { id } = req.user ? req.user : req.params;
+
+    if(!id) return res.status(401).json({message: "Unauthorized"});
+
+    const user = await db.user.findUnique({
+      where: {id: id},
+      select: {
+        id: true,
+        role: true,
+        email: true,
+      }
+    })
+    res.status(200).json(user);
   }
 
   async update(req: Request, res: Response) {

@@ -2,10 +2,17 @@ import passport from "passport";
 import {ExtractJwt, Strategy} from "passport-jwt";
 import {db} from "./db";
 import jwt from "jsonwebtoken";
-import {Application} from "express";
+import {Application, Request} from "express";
 import {JWT_SECRET} from "./env";
 import session from "express-session";
 import {UserRole} from "../enums/users";
+import {authMiddleware, authGoogleMiddleware} from "../middlewares/auth";
+
+
+interface RequestAuth extends Request {
+  user?: any; // Customize this type as per your use case
+  token?: string; // If you're appending a token, declare it here
+}
 
 declare module "passport" {
   namespace Express {
@@ -98,34 +105,39 @@ export class ApiAuth {
         })
       }
     });
+    this.app.post("/login", authGoogleMiddleware, async (req: RequestAuth, res, next) => {
+        try {
+          const {password} = req.body;
+          const {email} = req.user?.payload || req.body;
 
-    this.app.post("/login", async (req, res, next) => {
-      try {
-        const {email, password} = req.body;
-        const user = await db.user.findUnique({
-          select: {id: true, password: true, role: true},
-          where: {email}
-        });
+          const user = await db.user.findUnique({
+            select: {id: true, password: true, role: true, email: true},
+            where: {email}
+          });
 
-        if (!user) {
+          if (!user) {
+            return res
+              .status(400)
+              .json({message: "user does not exist"});
+          }
+
+          if (user.password !== password && !req.user) {
+            return res
+              .status(400)
+              .json({message: "incorrect password"});
+          }
+
+          delete (user as {password?: string}).password;
+
           return res
-            .status(400)
-            .json({message: "user does not exist"});
+              .status(200)
+              .json({
+                accessToken: signToken(user.id, user.role),
+                user: user
+              });
+        } catch (error) {
+          next(error);
         }
-
-        if (user.password !== password) {
-          return res
-            .status(400)
-            .json({message: "incorrect password"});
-        }
-
-        return res
-          .status(200)
-          .json({accessToken: signToken(user.id, user.role)});
-      } catch (error) {
-        console.log(error);
-        next(error);
-      }
     });
   }
 }

@@ -1,12 +1,12 @@
 import {Router} from "express";
-import UsersController from "../controllers/users.controller";
+import HousesController from "../controllers/reviews.controller";
 import {BaseRoutes, RouteConfig} from "./BaseRoutes";
-import {authMiddleware, authGetMiddleware} from "../middlewares/auth";
+import {authMiddleware} from "../middlewares/auth";
 import {UserRole} from "../enums/users";
 
-export class UsersRoutes extends BaseRoutes {
+export class ReviewsRoutes extends BaseRoutes {
   public router = Router();
-  private readonly controller = new UsersController();
+  private readonly controller = new HousesController();
 
   constructor() {
     super()
@@ -20,23 +20,12 @@ export class UsersRoutes extends BaseRoutes {
       {
         path: "/",
         method: "get",
-        handler: this.controller.findAll,
-        middlewares: [
-          // authMiddleware([UserRole.ADMIN])
-        ]
-      },
-      {
-        path: "/",
-        method: "patch",
-        handler: this.controller.findOne,
-        middlewares: [
-          authGetMiddleware
-        ]
+        handler: this.controller.findAll
       },
       {
         path: "/:id",
-        method: "put",
-        handler: this.controller.update
+        method: "get",
+        handler: this.controller.findOne
       },
       {
         path: "/:id",

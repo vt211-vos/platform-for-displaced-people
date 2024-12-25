@@ -112,6 +112,7 @@ const houses = [
     details: f.lorem.paragraph(),
     cityId: cities[0].id,
     coordinateId: coordinates[0].id,
+    userId: users[0].id,
   },
   {
     id: randomUUID(),
@@ -120,6 +121,7 @@ const houses = [
     details: f.lorem.paragraph(),
     cityId: cities[0].id,
     coordinateId: coordinates[1].id,
+    userId: users[0].id,
   },
   {
     id: randomUUID(),
@@ -128,6 +130,7 @@ const houses = [
     details: f.lorem.paragraph(),
     cityId: cities[1].id,
     coordinateId: coordinates[2].id,
+    userId: users[1].id,
   },
   {
     id: randomUUID(),
@@ -136,6 +139,7 @@ const houses = [
     details: f.lorem.paragraph(),
     cityId: cities[2].id,
     coordinateId: coordinates[4].id,
+    userId: users[1].id,
   },
 ] satisfies Seed<House>
 

@@ -1,9 +1,8 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 
-const log: Prisma.LogLevel[] = ["warn", "error"];
 
 const prismaClientSingleton = () => {
-  return new PrismaClient({ log });
+  return new PrismaClient();
 };
 
 export const db: ReturnType<typeof prismaClientSingleton> =
